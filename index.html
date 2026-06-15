@@ -30,12 +30,37 @@
   .drop p  { font-size:13px;color:var(--g400);margin-top:4px; }
   .drop .btn-br { display:inline-block;margin-top:14px;background:var(--sky);color:#fff;padding:8px 20px;border-radius:6px;font-size:13px;font-weight:500;pointer-events:none; }
   .flist { display:flex;flex-direction:column;gap:8px;margin-top:16px; }
+  .pair-group { display:flex;flex-direction:column; }
   .fchip { display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--g200);border-radius:var(--r);padding:10px 14px;font-size:13px;box-shadow:var(--sh); }
+  .fchip.paired {
+    border-left:4px solid var(--pair-color, var(--g200));
+  }
+  .fchip.paired.pair-top {
+    border-radius:0 var(--r) 0 0;
+    border-bottom:none;
+  }
+  .fchip.paired.pair-bottom {
+    border-radius:0 0 var(--r) 0;
+    border-top:1px solid var(--g100);
+    box-shadow:none;
+  }
+  .fchip.cat-basico     { --pair-color:#378ADD; }
+  .fchip.cat-elemental  { --pair-color:#639922; }
+  .fchip.cat-intermedio { --pair-color:#BA7517; }
+  .fchip.cat-int-alto   { --pair-color:#D4537E; }
+  .fchip.cat-pre-av     { --pair-color:#1D9E75; }
   .fchip .ico { font-size:18px; }
   .fchip .nm  { flex:1;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
-  .badge { font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--ice);color:var(--blue);white-space:nowrap; }
+  .fchip .nm-book { font-weight:400;font-size:11px;color:var(--g400);margin-left:8px; }
+  .badge { font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--ice);color:var(--blue);white-space:nowrap;flex-shrink:0; }
   .badge.int { background:#EDE9FE;color:#5B21B6; }
   .badge.unk { background:var(--amber-bg);color:var(--amber); }
+  /* Colores por nivel/categoría */
+  .badge.cat-basico     { background:#E6F1FB; color:#0C447C; }
+  .badge.cat-elemental  { background:#EAF3DE; color:#27500A; }
+  .badge.cat-intermedio { background:#FAEEDA; color:#633806; }
+  .badge.cat-int-alto   { background:#FBEAF0; color:#72243E; }
+  .badge.cat-pre-av     { background:#E1F5EE; color:#085041; }
   .chip-rm { background:none;border:none;cursor:pointer;color:var(--g400);font-size:18px;line-height:1;padding:0 2px;flex-shrink:0; }
   .chip-rm:hover { color:var(--red); }
   .pnote { background:#EDE9FE;border:1px solid #C4B5FD;border-radius:var(--r);padding:10px 14px;font-size:12px;color:#5B21B6;margin-top:4px;display:flex;gap:8px;align-items:flex-start; }
@@ -69,17 +94,40 @@
 
   /* TABLE */
   .tw { overflow-x:auto;border-radius:0 0 var(--r) var(--r);box-shadow:0 2px 8px rgba(0,0,0,.06); }
-  table { width:100%;border-collapse:collapse;background:#fff;font-size:13px; }
-  thead th { background:var(--blue);color:#fff;padding:9px 14px;text-align:left;font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap; }
+  table { width:100%;border-collapse:collapse;background:#fff;font-size:13px;table-layout:fixed; }
+  thead th { background:var(--blue);color:#fff;padding:9px 10px;text-align:center;font-weight:500;font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;white-space:normal;line-height:1.3; }
+  thead th:nth-child(2) { text-align:left; }
   tbody tr:nth-child(even) td { background:var(--g50); }
   tbody tr:hover td { background:var(--ice); }
-  td { padding:9px 14px;border-bottom:1px solid var(--g100); }
-  td.num { font-family:var(--mono);font-size:12px;color:var(--g400);text-align:center;width:36px; }
-  td.nm  { font-weight:500; }
-  td.mn  { font-family:var(--mono);font-size:12px;text-align:center; }
+  tbody tr td.nf-highlight { background:var(--g100); }
+  tbody tr:nth-child(even) td.nf-highlight { background:#E9ECEF; }
+  tbody tr:hover td.nf-highlight { background:#DCE9FB; }
+  td { padding:9px 8px;border-bottom:1px solid var(--g100); overflow:hidden;text-overflow:ellipsis; }
+  td.num { font-family:var(--mono);font-size:12px;color:var(--g400);text-align:center;width:32px; }
+  td.nm  { font-weight:500;white-space:normal; }
+  td.nm-edit {
+    cursor:text; border-radius:4px;
+    transition:background .15s, box-shadow .15s;
+  }
+  td.nm-edit:hover { background:#FFF8E6; box-shadow:inset 0 0 0 1px #FCD34D; }
+  td.nm-edit:focus { background:#FFFBEB; box-shadow:inset 0 0 0 1.5px var(--sky); outline:none; }
+  td.mn  { font-family:var(--mono);font-size:11px;text-align:center;white-space:normal;word-break:break-word; }
   td.nt  { font-family:var(--mono);font-weight:600;font-size:14px;text-align:center; }
   td.nf  { font-family:var(--mono);font-weight:700;font-size:15px;text-align:center; }
   .gn { color:var(--green); } .rn { color:var(--red); } .an { color:var(--amber); }
+
+  /* Columnas secundarias: más discretas para no competir con la nota final */
+  td.detail { color:var(--g400); font-size:11px; font-weight:500; opacity:.85; padding:9px 12px; }
+  td.mn.detail { color:var(--g400); }
+
+  /* Nota final destacada */
+  td.nf-highlight {
+    font-size:17px; font-weight:700;
+    background:var(--g50);
+    border-left:1px solid var(--g200);
+    width:90px;
+  }
+  thead th:last-child { border-left:1px solid rgba(255,255,255,.15); width:90px; }
 
   .msg { padding:14px 16px;border-radius:var(--r);font-size:13px;display:flex;gap:10px;align-items:flex-start;margin-top:12px; }
   .msg.warn { background:var(--amber-bg);color:var(--amber);border:1px solid #FCD34D; }
@@ -100,6 +148,15 @@
   .aviso-icon { font-size:20px;flex-shrink:0;margin-top:1px; }
   .aviso-title { font-size:13px;font-weight:600;color:#92400E;margin-bottom:4px; }
   .aviso-text  { font-size:12px;color:#78350F;line-height:1.6; }
+
+  /* AVISO INFO (azul) */
+  .aviso-info {
+    display:flex;gap:14px;align-items:flex-start;
+    background:var(--ice);border:1px solid #BFDBFE;border-left:4px solid var(--sky);
+    border-radius:var(--r);padding:14px 16px;margin-bottom:20px;
+  }
+  .aviso-info .aviso-title { color:var(--blue); }
+  .aviso-info .aviso-text  { color:#1E40AF; }
 
   /* FOOTER */
   .footer {
@@ -157,18 +214,18 @@
 <script>
 // ── NIVELES ──────────────────────────────────────────────────────────────────
 const NIVELES = [
-  { key:'Starter A', label:'Básico I',        tipo:'normal',         grupo:'basico-a',    f:'basico'          },
-  { key:'Starter B', label:'Básico II',       tipo:'normal',         grupo:'basico-b',    f:'basico'          },
-  { key:'Level 1A',  label:'Elemental I',     tipo:'normal',         grupo:'elemental-a', f:'elemental'       },
-  { key:'Level 1B',  label:'Elemental II',    tipo:'normal',         grupo:'elemental-b', f:'elemental'       },
-  { key:'Level 2A',  label:'Intermedio I',    tipo:'normal',         grupo:'intermedio-a',f:'intermedio'      },
-  { key:'Level 2B',  label:'Intermedio II',   tipo:'normal',         grupo:'intermedio-b',f:'intermedio'      },
+  { key:'Starter A', label:'Básico I',        tipo:'normal',         grupo:'basico-a',    f:'basico',          cat:'basico'     },
+  { key:'Starter B', label:'Básico II',       tipo:'normal',         grupo:'basico-b',    f:'basico',          cat:'basico'     },
+  { key:'Level 1A',  label:'Elemental I',     tipo:'normal',         grupo:'elemental-a', f:'elemental',       cat:'elemental'  },
+  { key:'Level 1B',  label:'Elemental II',    tipo:'normal',         grupo:'elemental-b', f:'elemental',       cat:'elemental'  },
+  { key:'Level 2A',  label:'Intermedio I',    tipo:'normal',         grupo:'intermedio-a',f:'intermedio',      cat:'intermedio' },
+  { key:'Level 2B',  label:'Intermedio II',   tipo:'normal',         grupo:'intermedio-b',f:'intermedio',      cat:'intermedio' },
   // Intermedio Alto: dos archivos (Student Book + Workbook), mismo "Level 3"
-  { key:'Level 3 Student Book', label:'Intermedio Alto', tipo:'par_unico', grupo:'int-alto-sb', f:'intermedio_alto' },
-  { key:'Level 3 Workbook',     label:'Intermedio Alto', tipo:'par_unico', grupo:'int-alto-wb', f:'intermedio_alto' },
+  { key:'Level 3 Student Book', label:'Intermedio Alto', tipo:'par_unico', grupo:'int-alto-sb', f:'intermedio_alto', cat:'int-alto'   },
+  { key:'Level 3 Workbook',     label:'Intermedio Alto', tipo:'par_unico', grupo:'int-alto-wb', f:'intermedio_alto', cat:'int-alto'   },
   // Pre Avanzado: dos archivos (Student Book + Workbook), mismo "Level 4"
-  { key:'Level 4 Student Book', label:'Pre Avanzado',    tipo:'par_unico', grupo:'pre-av-sb',   f:'pre_avanzado'    },
-  { key:'Level 4 Workbook',     label:'Pre Avanzado',    tipo:'par_unico', grupo:'pre-av-wb',   f:'pre_avanzado'    },
+  { key:'Level 4 Student Book', label:'Pre Avanzado',    tipo:'par_unico', grupo:'pre-av-sb',   f:'pre_avanzado',    cat:'pre-av'     },
+  { key:'Level 4 Workbook',     label:'Pre Avanzado',    tipo:'par_unico', grupo:'pre-av-wb',   f:'pre_avanzado',    cat:'pre-av'     },
 ];
 const PARES = [
   { label:'Básico Intensivo',     a:'basico-a',    b:'basico-b',    f:'basico'          },
@@ -211,15 +268,39 @@ function normNombre(s) {
   return s.trim().toUpperCase().replace(/\s+/g, ' ');
 }
 
-// Convertir nombre Oxford al formato portal (apellidos primero)
-// Asumimos que las últimas 2 palabras son apellidos si hay 4+ palabras,
-// o última palabra si hay 3.
+// Partículas que deben quedar pegadas a la palabra siguiente
+const PARTICULAS = new Set(['DEL','DE','LA','LAS','LOS','Y','VAN','VON','DA','DOS','SAN','SANTA']);
+
+// Agrupa el nombre completo en "unidades": una partícula + la palabra
+// siguiente cuentan como una sola unidad (ej: "del Carmen" → 1 unidad)
+function agruparUnidades(partes) {
+  const unidades = [];
+  let i = 0;
+  while (i < partes.length) {
+    if (PARTICULAS.has(partes[i]) && i + 1 < partes.length) {
+      unidades.push(partes[i] + ' ' + partes[i + 1]);
+      i += 2;
+    } else {
+      unidades.push(partes[i]);
+      i += 1;
+    }
+  }
+  return unidades;
+}
+
+// Convertir nombre Oxford (Nombres Apellidos) al formato portal (Apellidos Nombres)
+// Las partículas (del, de la, etc.) se mantienen unidas a la palabra que las sigue
+// para no romper nombres compuestos como "del Carmen" o apellidos como "de la Fuente".
 function oxfordAPortal(nombre) {
-  const partes = normNombre(nombre).split(' ');
+  const partes   = normNombre(nombre).split(' ');
   if (partes.length <= 2) return partes.join(' ');
-  // Heurística: mover primera mitad al final
-  const mitad = Math.floor(partes.length / 2);
-  return [...partes.slice(mitad), ...partes.slice(0, mitad)].join(' ');
+
+  const unidades = agruparUnidades(partes);
+  if (unidades.length <= 2) return unidades.join(' ');
+
+  // Mover la primera mitad de las UNIDADES al final
+  const mitad = Math.floor(unidades.length / 2);
+  return [...unidades.slice(mitad), ...unidades.slice(0, mitad)].join(' ');
 }
 
 // Clave de comparación: palabras ordenadas alfabéticamente
@@ -266,6 +347,22 @@ function parsearTexto(txt, filename) {
   return { learningMaterial, codigoCurso, estudiantes };
 }
 
+// Extrae un nombre corto del libro desde el Learning Material
+// ej: "...Level Starter A Student Book and Workbook..." → "Level Starter A"
+//     "...Level 2B Student Book and Workbook..."        → "Level 2B"
+//     "...Level 3 Workbook E-book"                       → "Level 3 Workbook"
+function nombreCortoLibro(lm) {
+  // Niveles con A/B (Starter A/B, 1A/1B, 2A/2B): un solo split, sin distinción SB/WB
+  let m = lm.match(/Level\s+(\w+\s*[AB])\b/i);
+  if (m) return 'Level ' + m[1].replace(/\s+/g, ' ');
+
+  // Level 3 / Level 4 con Student Book o Workbook por separado
+  m = lm.match(/Level\s+(\d+)\s+(Student Book|Workbook)/i);
+  if (m) return 'Level ' + m[1] + ' ' + m[2];
+
+  return '';
+}
+
 function detectNivel(lm, filename) {
   const esIntensivo = /^INI/i.test(filename);
   for (const n of NIVELES) {
@@ -273,7 +370,7 @@ function detectNivel(lm, filename) {
     // Si el archivo es INI, los cursos normales pasan a ser intensivos (libro A o B)
     if (esIntensivo && n.tipo === 'normal') {
       return { ...n,
-        label: n.label.replace('I','').replace('II','').trim() + ' Intensivo',
+        label: n.label.replace(/\s+(I{1,2})$/, '').trim() + ' Intensivo',
         tipo: 'intensivo_par'   // marcamos como parte de par intensivo
       };
     }
@@ -301,13 +398,9 @@ function cargar(files) {
     const r = new FileReader();
     r.onload = e => {
       const parsed = parsearTexto(e.target.result, file.name);
-      if (parsed && !archivos.find(a => a.parsed && a.parsed.learningMaterial === parsed.learningMaterial)) {
+      if (parsed) {
         const nivel = detectNivel(parsed.learningMaterial, file.name);
         archivos.push({ nombre: file.name, parsed, nivel });
-      } else if (parsed && archivos.find(a => a.parsed && a.parsed.learningMaterial === parsed.learningMaterial)) {
-        // Mismo libro ya cargado — igual lo agregamos para mostrar el error
-        const nivel = detectNivel(parsed.learningMaterial, file.name);
-        archivos.push({ nombre: file.name + '_dup', parsed, nivel });
       }
       if (--pending === 0) renderLista();
     };
@@ -321,83 +414,150 @@ function renderLista() {
   const notices = document.getElementById('notices');
   lista.innerHTML = notices.innerHTML = '';
 
+  // Precalcular el índice del archivo emparejado (si existe) para cada item
+  const parejaDe = new Array(archivos.length).fill(-1);
   archivos.forEach((item, idx) => {
+    if (!item.nivel || !item.parsed) return;
+    if (item.nivel.tipo !== 'intensivo_par' && item.nivel.tipo !== 'par_unico') return;
+    const par = PARES.find(p => p.a === item.nivel.grupo || p.b === item.nivel.grupo);
+    if (!par) return;
+    const grupoPar = (par.a === item.nivel.grupo) ? par.b : par.a;
+    const oi = archivos.findIndex((other, j) =>
+      j !== idx && parejaDe[j] === -1 &&
+      other.parsed && other.nivel && other.nivel.grupo === grupoPar &&
+      other.parsed.codigoCurso === item.parsed.codigoCurso
+    );
+    if (oi !== -1) { parejaDe[idx] = oi; parejaDe[oi] = idx; }
+  });
+
+  function crearChip(item, idx, posicionPar) {
     const div = document.createElement('div');
     div.className = 'fchip';
     const bc = item.nivel
-      ? (item.nivel.tipo !== 'normal' ? 'badge int' : 'badge')
+      ? `badge cat-${item.nivel.cat}`
       : 'badge unk';
-    let bt = item.nivel ? item.nivel.label : '⚠ No identificado';
-    if (item.nivel && item.nivel.grupo.endsWith('-sb')) bt += ' · Student Book';
-    if (item.nivel && item.nivel.grupo.endsWith('-wb')) bt += ' · Workbook';
+    const bt = item.nivel ? item.nivel.label : '⚠ No identificado';
+    const libroCorto = item.parsed ? nombreCortoLibro(item.parsed.learningMaterial) : '';
+
+    if (posicionPar) {
+      div.classList.add('paired', `cat-${item.nivel.cat}`, posicionPar);
+    }
+
     div.innerHTML = `
       <span class="ico">📄</span>
-      <span class="nm" title="${item.nombre}">${item.parsed ? item.parsed.codigoCurso : item.nombre}</span>
+      <span class="nm" title="${item.nombre}">
+        ${item.parsed ? item.parsed.codigoCurso : item.nombre}
+        ${libroCorto ? `<span class="nm-book">${libroCorto}</span>` : ''}
+      </span>
       <span class="${bc}">${bt}</span>
       <button class="chip-rm" data-i="${idx}">✕</button>`;
-    lista.appendChild(div);
+    return div;
+  }
+
+  const yaRenderizado = new Set();
+  archivos.forEach((item, idx) => {
+    if (yaRenderizado.has(idx)) return;
+    const pareja = parejaDe[idx];
+
+    if (pareja !== -1) {
+      // Renderizar como par unido en un wrapper
+      const wrapper = document.createElement('div');
+      wrapper.className = 'pair-group';
+      wrapper.appendChild(crearChip(item, idx, 'pair-top'));
+      wrapper.appendChild(crearChip(archivos[pareja], pareja, 'pair-bottom'));
+      lista.appendChild(wrapper);
+      yaRenderizado.add(idx);
+      yaRenderizado.add(pareja);
+    } else {
+      lista.appendChild(crearChip(item, idx, null));
+      yaRenderizado.add(idx);
+    }
   });
   lista.querySelectorAll('.chip-rm').forEach(b =>
     b.addEventListener('click', () => { archivos.splice(+b.dataset.i, 1); renderLista(); })
   );
 
-  const grupos = {};
-  archivos.forEach(a => { if (a.nivel) grupos[a.nivel.grupo] = true; });
-
-  // Detectar duplicados: mismo learningMaterial cargado más de una vez
-  const lmCount = {};
+  // Detectar duplicados: mismo learningMaterial cargado dos veces PARA EL MISMO CURSO
+  // (dos secciones distintas del mismo nivel comparten learningMaterial y eso es normal)
+  const porCurso = {};
   archivos.forEach(a => {
     if (a.parsed) {
-      const lm = a.parsed.learningMaterial;
-      lmCount[lm] = (lmCount[lm] || 0) + 1;
+      const cod = a.parsed.codigoCurso;
+      (porCurso[cod] = porCurso[cod] || []).push(a.parsed.learningMaterial);
     }
   });
-  const hayDuplicados = Object.values(lmCount).some(v => v > 1);
+  const duplicadosPorCurso = []; // [{codigo, lm, count}]
+  Object.entries(porCurso).forEach(([cod, lms]) => {
+    const cuenta = {};
+    lms.forEach(lm => cuenta[lm] = (cuenta[lm] || 0) + 1);
+    Object.entries(cuenta).forEach(([lm, count]) => {
+      if (count > 1) duplicadosPorCurso.push({ codigo: cod, lm, count });
+    });
+  });
+  const hayDuplicados = duplicadosPorCurso.length > 0;
 
+  // Validar pares por CÓDIGO DE CURSO (no globalmente), usando parejaDe ya calculado
   let hayParesIncompletos = false;
 
   // Avisar duplicados primero
   if (hayDuplicados) {
     hayParesIncompletos = true;
-    Object.entries(lmCount).forEach(([lm, count]) => {
-      if (count > 1) {
-        // Extraer nombre corto del libro
-        const match = lm.match(/Level\s+[\w\s]+(?=Student)/i);
-        const libroCorto = match ? match[0].trim() : lm.slice(0,40);
-        const d = document.createElement('div');
-        d.className = 'pnote missing';
-        d.innerHTML = `🚫 <span>Se cargó el mismo libro <strong>${count} veces</strong> (${libroCorto}). Para un intensivo necesitas los CSV de dos libros <em>distintos</em>.</span>`;
-        notices.appendChild(d);
-      }
+    duplicadosPorCurso.forEach(({ codigo, lm, count }) => {
+      const match = lm.match(/Level\s+[\w\s]+(?=Student|Workbook)/i);
+      const libroCorto = match ? match[0].trim() : lm.slice(0,40);
+      const d = document.createElement('div');
+      d.className = 'pnote missing';
+      d.innerHTML = `🚫 <span>En <strong>${codigo}</strong> se cargó el mismo archivo <strong>${count} veces</strong> (${libroCorto}). Para un intensivo necesitas los CSV de dos libros <em>distintos</em>.</span>`;
+      notices.appendChild(d);
     });
   }
 
-  PARES.forEach(p => {
-    const tieneA = grupos[p.a];
-    const tieneB = grupos[p.b];
-    const esSBWB = p.a.endsWith('-sb') || p.a.endsWith('-wb');
-    const nombreA = esSBWB ? 'Student Book' : 'libro A';
-    const nombreB = esSBWB ? 'Workbook'     : 'libro B';
-
-    if (tieneA && tieneB && !hayDuplicados) {
-      const d = document.createElement('div');
-      d.className = 'pnote';
-      d.innerHTML = `✅ <span>Par completo: <strong>${p.label}</strong> — ambos archivos cargados, se combinarán automáticamente.</span>`;
-      notices.appendChild(d);
-    } else if (tieneA && !tieneB && !hayDuplicados) {
-      hayParesIncompletos = true;
-      const d = document.createElement('div');
-      d.className = 'pnote missing';
-      d.innerHTML = `⚠️ <span><strong>${p.label}:</strong> falta el CSV del <strong>${nombreB}</strong>. Carga el segundo archivo para poder calcular.</span>`;
-      notices.appendChild(d);
-    } else if (!tieneA && tieneB && !hayDuplicados) {
-      hayParesIncompletos = true;
-      const d = document.createElement('div');
-      d.className = 'pnote missing';
-      d.innerHTML = `⚠️ <span><strong>${p.label}:</strong> falta el CSV del <strong>${nombreA}</strong>. Carga el segundo archivo para poder calcular.</span>`;
-      notices.appendChild(d);
+  // Agrupar archivos intensivos por código de curso
+  const intensivosPorCurso = {}; // { codigoCurso: [items] }
+  archivos.forEach(a => {
+    if (a.nivel && a.parsed && (a.nivel.tipo === 'intensivo_par' || a.nivel.tipo === 'par_unico')) {
+      const cod = a.parsed.codigoCurso;
+      (intensivosPorCurso[cod] = intensivosPorCurso[cod] || []).push(a);
     }
   });
+
+  if (!hayDuplicados) {
+    Object.entries(intensivosPorCurso).forEach(([codigo, items]) => {
+      // Determinar a qué PAR pertenece este grupo de archivos
+      const gruposPresentes = new Set(items.map(a => a.nivel.grupo));
+
+      PARES.forEach(p => {
+        const tieneA = gruposPresentes.has(p.a);
+        const tieneB = gruposPresentes.has(p.b);
+        if (!tieneA && !tieneB) return; // este código de curso no es de este par
+
+        const esSBWB = p.a.endsWith('-sb') || p.a.endsWith('-wb');
+        const nombreA = esSBWB ? 'Student Book' : 'libro A';
+        const nombreB = esSBWB ? 'Workbook'     : 'libro B';
+
+        if (tieneA && tieneB) {
+          const d = document.createElement('div');
+          d.className = 'pnote';
+          d.innerHTML = `✅ <span>Par completo: <strong>${p.label}</strong> (${codigo}) — ambos archivos cargados, se combinarán automáticamente.</span>`;
+          notices.appendChild(d);
+        } else if (tieneA && !tieneB) {
+          hayParesIncompletos = true;
+          const d = document.createElement('div');
+          d.className = 'pnote missing';
+          d.innerHTML = `⚠️ <span><strong>${p.label} (${codigo}):</strong> falta el CSV del <strong>${nombreB}</strong>. Carga el segundo archivo para poder calcular.</span>`;
+          notices.appendChild(d);
+        } else if (!tieneA && tieneB) {
+          hayParesIncompletos = true;
+          const d = document.createElement('div');
+          d.className = 'pnote missing';
+          d.innerHTML = `⚠️ <span><strong>${p.label} (${codigo}):</strong> falta el CSV del <strong>${nombreA}</strong>. Carga el segundo archivo para poder calcular.</span>`;
+          notices.appendChild(d);
+        }
+      });
+    });
+  } else {
+    hayParesIncompletos = true;
+  }
 
   document.getElementById('btnCalc').disabled = archivos.length === 0 || hayParesIncompletos;
 }
@@ -408,11 +568,6 @@ document.getElementById('btnCalc').addEventListener('click', calcular);
 function calcular() {
   document.getElementById('msgs').innerHTML    = '';
   document.getElementById('results').innerHTML = '';
-
-  const pg = {};
-  archivos.forEach(a => {
-    if (a.nivel) { const g = a.nivel.grupo; (pg[g] = pg[g] || []).push(a); }
-  });
 
   // Construir cursos individuales
   const cursos = []; // [{titulo, codigo, nivel, rows}]
@@ -426,6 +581,7 @@ function calcular() {
         const n = calcNotas(est.comp, est.score, f);
         return {
           nombrePortal: oxfordAPortal(est.nombreOxford),
+          nombreOxford: normNombre(est.nombreOxford),
           claveComp:    claveNombre(est.nombreOxford),
           comp: est.comp, score: est.score, ...n
         };
@@ -440,41 +596,48 @@ function calcular() {
     }
   });
 
-  // Pares intensivos
-  const procesados = new Set();
-  PARES.forEach(par => {
-    const ga = pg[par.a], gb = pg[par.b];
-    if (!ga || !gb) return;
-    const key = par.a + '+' + par.b;
-    if (procesados.has(key)) return;
-    procesados.add(key);
+  // Pares intensivos: agrupar por código de curso para no mezclar secciones
+  const intensivosPorCurso = {};
+  archivos.forEach(a => {
+    if (a.nivel && a.parsed && (a.nivel.tipo === 'intensivo_par' || a.nivel.tipo === 'par_unico')) {
+      const cod = a.parsed.codigoCurso;
+      (intensivosPorCurso[cod] = intensivosPorCurso[cod] || []).push(a);
+    }
+  });
 
-    const mapB = {};
-    gb[0].parsed.estudiantes.forEach(e => {
-      mapB[claveNombre(e.nombreOxford)] = e;
-    });
+  Object.entries(intensivosPorCurso).forEach(([codigo, items]) => {
+    PARES.forEach(par => {
+      const itemA = items.find(a => a.nivel.grupo === par.a);
+      const itemB = items.find(a => a.nivel.grupo === par.b);
+      if (!itemA || !itemB) return;
 
-    const rows = [];
-    ga[0].parsed.estudiantes.forEach(eA => {
-      const eB = mapB[claveNombre(eA.nombreOxford)];
-      const compT  = eA.comp  + (eB ? eB.comp  : 0);
-      const scoreT = eA.score + (eB ? eB.score : 0);
-      const n = calcNotas(compT, scoreT, par.f);
-      rows.push({
-        nombrePortal: oxfordAPortal(eA.nombreOxford),
-        claveComp:    claveNombre(eA.nombreOxford),
-        comp:  `${eA.comp.toFixed(1)}%+${(eB?eB.comp:0).toFixed(1)}%`,
-        score: `${eA.score.toFixed(1)}%+${(eB?eB.score:0).toFixed(1)}%`,
-        ...n
+      const mapB = {};
+      itemB.parsed.estudiantes.forEach(e => {
+        mapB[claveNombre(e.nombreOxford)] = e;
       });
-    });
-    rows.sort((a, b) => a.nombrePortal.localeCompare(b.nombrePortal, 'es'));
-    const codA = ga[0].parsed.codigoCurso;
-    const codB = gb[0].parsed.codigoCurso;
-    cursos.push({
-      titulo: par.label,
-      codigo: codA === codB ? codA : (codA + '+' + codB),
-      rows
+
+      const rows = [];
+      itemA.parsed.estudiantes.forEach(eA => {
+        const eB = mapB[claveNombre(eA.nombreOxford)];
+        const compT  = eA.comp  + (eB ? eB.comp  : 0);
+        const scoreT = eA.score + (eB ? eB.score : 0);
+        const n = calcNotas(compT, scoreT, par.f);
+        rows.push({
+          nombrePortal: oxfordAPortal(eA.nombreOxford),
+          nombreOxford: normNombre(eA.nombreOxford),
+          claveComp:    claveNombre(eA.nombreOxford),
+          comp:  `${eA.comp.toFixed(1)}%+${(eB?eB.comp:0).toFixed(1)}%`,
+          score: `${eA.score.toFixed(1)}%+${(eB?eB.score:0).toFixed(1)}%`,
+          ...n
+        });
+      });
+      rows.sort((a, b) => a.nombrePortal.localeCompare(b.nombrePortal, 'es'));
+      cursos.push({
+        titulo: par.label,
+        codigo: codigo,
+        esPar: true,
+        rows
+      });
     });
   });
 
@@ -491,9 +654,34 @@ function calcular() {
 // ── RENDER ────────────────────────────────────────────────────────────────────
 function col(n) { return n >= 4 ? 'gn' : n >= 3 ? 'an' : 'rn'; }
 
+// Editar nombre inline: actualiza el dato, reordena y re-renderiza
+function actualizarNombre(celda) {
+  const ci = +celda.dataset.ci;
+  const ri = +celda.dataset.ri;
+  const nuevo = celda.textContent.trim().toUpperCase().replace(/\s+/g, ' ');
+
+  const curso = window._cursos[ci];
+  if (!nuevo || curso.rows[ri].nombrePortal === nuevo) {
+    celda.textContent = curso.rows[ri].nombrePortal; // sin cambios reales
+    return;
+  }
+
+  curso.rows[ri].nombrePortal = nuevo;
+  curso.rows.sort((a, b) => a.nombrePortal.localeCompare(b.nombrePortal, 'es'));
+  renderResultados(window._cursos);
+}
+
 function renderResultados(cursos) {
   const container = document.getElementById('results');
   let html = '<hr class="div">';
+
+  html += `<div class="aviso-info">
+    <div class="aviso-icon">✎</div>
+    <div class="aviso-body">
+      <div class="aviso-title">Los nombres se ordenan automáticamente como en el portal de calificaciones</div>
+      <div class="aviso-text">La conversión de "Nombre Apellido" (Oxford) a "Apellido Nombre" (portal de calificaciones) es automática y funciona en la mayoría de los casos. Sin embargo, con nombres compuestos, apellidos de origen extranjero, o partículas como "del", "de la", etc., puede no quedar exactamente igual al portal. <strong>Haz clic sobre cualquier nombre para corregirlo</strong>: al guardar, la fila se reordenará automáticamente.</div>
+    </div>
+  </div>`;
 
   // Barra resumen global si hay más de 1 curso
   if (cursos.length > 1) {
@@ -537,18 +725,24 @@ function renderResultados(cursos) {
       </div>
       <div class="tw"><table>
         <thead><tr>
-          <th>#</th><th>Estudiante (orden portal)</th>
-          <th>% Completion</th><th>% Score</th>
-          <th>N. Completion</th><th>N. Score</th><th>Nota Final</th>
+          <th>#</th><th>Estudiante (orden portal de calificaciones) <span style="opacity:.6;font-weight:400">✎ editable</span></th>
+          ${curso.esPar
+            ? `<th>% Completion (Libro A + B)</th><th>% Score (Libro A + B)</th><th>N. Completion</th><th>N. Score</th><th>Nota Final</th>`
+            : `<th>% Completion</th><th>% Score</th><th>N. Completion</th><th>N. Score</th><th>Nota Final</th>`}
         </tr></thead>
         <tbody>${curso.rows.map((r, i) => `<tr>
           <td class="num">${i + 1}</td>
-          <td class="nm">${r.nombrePortal}</td>
-          <td class="mn">${typeof r.comp === 'number' ? r.comp.toFixed(1)+'%' : r.comp}</td>
-          <td class="mn">${typeof r.score=== 'number' ? r.score.toFixed(1)+'%': r.score}</td>
-          <td class="nt ${col(r.nc)}">${r.nc.toFixed(1)}</td>
-          <td class="nt ${col(r.ns)}">${r.ns.toFixed(1)}</td>
-          <td class="nf ${col(r.nf)}">${r.nf.toFixed(1)}</td>
+          <td class="nm nm-edit" contenteditable="true" spellcheck="false"
+              data-ci="${ci}" data-ri="${i}"
+              onblur="actualizarNombre(this)"
+              onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
+              title="Haz clic para corregir el nombre. Al salir del campo, se reordenará.">${r.nombrePortal}</td>
+          ${curso.esPar
+            ? `<td class="mn detail">${r.comp}</td><td class="mn detail">${r.score}</td>`
+            : `<td class="mn">${typeof r.comp === 'number' ? r.comp.toFixed(1)+'%' : r.comp}</td><td class="mn">${typeof r.score=== 'number' ? r.score.toFixed(1)+'%': r.score}</td>`}
+          <td class="nt detail ${col(r.nc)}">${r.nc.toFixed(1)}</td>
+          <td class="nt detail ${col(r.ns)}">${r.ns.toFixed(1)}</td>
+          <td class="nf nf-highlight ${col(r.nf)}">${r.nf.toFixed(1)}</td>
         </tr>`).join('')}</tbody>
       </table></div>
     </div>`;
